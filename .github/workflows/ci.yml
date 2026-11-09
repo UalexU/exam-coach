@@ -1,0 +1,42 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Unit tests
+        run: python -m unittest discover tests -v
+      - name: Validate example exam against syllabus
+        run: make validate
+  ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Playwright
+        run: |
+          pip install -r requirements-dev.txt
+          python -m playwright install --with-deps chromium
+      - name: Browser test
+        run: python tests/ui_test.py --shots ui-shots
+      - name: Build example (HTML + PDF) and package skill
+        run: make example package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: exam-coach-build
+          path: |
+            ui-shots/
+            exam-out/
+            dist/exam-coach.skill

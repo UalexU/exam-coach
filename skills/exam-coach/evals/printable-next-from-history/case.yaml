@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: printable-next-from-history
+expected_outcome: |
+  A printable exam paper and separate answer key whose content is driven by the history: confident errors and weak concepts first.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,11 @@
+{
+  "name": "exam-coach",
+  "owner": { "name": "Alex Villalba Gonzalez" },
+  "plugins": [
+    {
+      "name": "exam-coach",
+      "source": "./",
+      "description": "Hard, research-backed, syllabus-aligned practice exams on a spaced schedule."
+    }
+  ]
+}

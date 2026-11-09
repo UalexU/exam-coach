@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: mc-only-bayesian-untimed
+expected_outcome: |
+  An untimed, MC-only interactive exam of 8 questions with sources and explanations.

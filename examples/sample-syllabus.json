@@ -1,0 +1,92 @@
+{
+ "course": "Low-Field MRI Physics (graduate seminar)",
+ "source": "Example syllabus for testing",
+ "units": [
+  {
+   "id": "U1",
+   "title": "Magnetization and the Larmor relation",
+   "start": "2026-10-19",
+   "end": "2026-11-01",
+   "objectives": [
+    {
+     "id": "U1.1",
+     "text": "Compute resonance frequencies and convert field units without error",
+     "concept": "Larmor frequency",
+     "importance": "core"
+    },
+    {
+     "id": "U1.2",
+     "text": "Explain how equilibrium magnetization scales with B0 and temperature",
+     "concept": "Polarization",
+     "importance": "supporting"
+    }
+   ]
+  },
+  {
+   "id": "U2",
+   "title": "Signal, noise and relaxation at low field",
+   "start": "2026-11-02",
+   "end": "2026-11-15",
+   "objectives": [
+    {
+     "id": "U2.1",
+     "text": "Derive how SNR scales with B0 in coil-noise and sample-noise regimes",
+     "concept": "SNR scaling",
+     "importance": "core"
+    },
+    {
+     "id": "U2.2",
+     "text": "Identify the dominant noise source at a given frequency and its design consequences",
+     "concept": "Noise regimes",
+     "importance": "core"
+    },
+    {
+     "id": "U2.3",
+     "text": "Predict how T1 and T2 change at low field and what that means for protocol design",
+     "concept": "Relaxation vs field",
+     "importance": "core"
+    },
+    {
+     "id": "U2.4",
+     "text": "Estimate SAR changes across field strengths",
+     "concept": "RF safety (SAR)",
+     "importance": "supporting"
+    }
+   ]
+  },
+  {
+   "id": "U3",
+   "title": "Portable systems and hardware",
+   "start": "2026-11-16",
+   "end": "2026-11-29",
+   "objectives": [
+    {
+     "id": "U3.1",
+     "text": "Compare magnet technologies for point-of-care MRI",
+     "concept": "Portable systems",
+     "importance": "core"
+    },
+    {
+     "id": "U3.2",
+     "text": "Analyze gradient design trade-offs (efficiency, heating, peripheral nerve stimulation)",
+     "concept": "Gradient design",
+     "importance": "core"
+    }
+   ]
+  },
+  {
+   "id": "U4",
+   "title": "Interference, artifacts and reconstruction",
+   "start": "2026-11-30",
+   "end": "2026-12-13",
+   "objectives": [
+    {
+     "id": "U4.1",
+     "text": "Explain active EMI cancellation without a shielded room",
+     "concept": "EMI cancellation",
+     "importance": "core"
+    }
+   ]
+  }
+ ]
+}

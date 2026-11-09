@@ -1,0 +1,282 @@
+{
+ "meta": {
+  "series": "Low-Field MRI Exam Series",
+  "number": 1,
+  "title": "Exam 1: Low-field MRI fundamentals",
+  "date": "2026-11-06",
+  "field": "Low-field MRI physics",
+  "level": "Graduate",
+  "professor": {
+   "name": "Prof. Ada Lindqvist (persona)",
+   "persona": "MR physicist focused on hardware and SNR trade-offs. Socratic, strict on units and stated assumptions, and loves asking *what changes when B_{0} drops 50×?*"
+  },
+  "topics": [
+   "Larmor frequency",
+   "Relaxation vs field",
+   "Noise regimes",
+   "SNR scaling",
+   "RF safety",
+   "Portable systems"
+  ],
+  "time_limit_minutes": 30,
+  "instructions": "Answer every question. Show units and state assumptions in written answers. Rate your confidence honestly. It's how the next exam is planned.",
+  "syllabus": "Low-Field MRI Physics (graduate seminar)"
+ },
+ "questions": [
+  {
+   "id": "q1",
+   "type": "mc",
+   "kind": "new",
+   "bloom": "apply",
+   "concept": "Larmor frequency",
+   "points": 1,
+   "prompt": "A portable scanner operates at B_{0} = 64 mT. What is the proton Larmor frequency?",
+   "options": [
+    {
+     "id": "A",
+     "text": "About 2.7 MHz"
+    },
+    {
+     "id": "B",
+     "text": "About 27 MHz"
+    },
+    {
+     "id": "C",
+     "text": "About 2.7 kHz"
+    },
+    {
+     "id": "D",
+     "text": "About 0.43 MHz"
+    }
+   ],
+   "answer": "A",
+   "explanation": "f_{0} = (γ/2π)·B_{0}, with γ/2π ≈ 42.58 MHz/T for ^{1}H. 42.58 MHz/T × 0.064 T ≈ 2.73 MHz.",
+   "distractor_notes": {
+    "B": "A factor-of-ten slip converting mT to T.",
+    "C": "Multiplying MHz/T by 64 mT without converting mT to T, then mislabeling the unit.",
+    "D": "Dividing instead of multiplying, or using a different nucleus's gyromagnetic ratio."
+   },
+   "sources": [
+    {
+     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
+     "url": "https://doi.org/10.1002/jmri.26637"
+    }
+   ],
+   "objective": "U1.1",
+   "difficulty": 2,
+   "hint": "Convert 64 mT to tesla first. Which unit does γ/2π carry?"
+  },
+  {
+   "id": "q2",
+   "type": "mc",
+   "kind": "new",
+   "bloom": "analyze",
+   "difficulty": 4,
+   "concept": "Relaxation vs field",
+   "objective": "U2.3",
+   "points": 1,
+   "prompt": "You port a T_{1}-weighted brain protocol from 3 T to 64 mT and keep TR = 500 ms. Which prediction is best supported by low-field relaxation data?",
+   "options": [
+    {
+     "id": "A",
+     "text": "T_{1} lengthens at low field, so TR = 500 ms now gives too little recovery and contrast collapses"
+    },
+    {
+     "id": "B",
+     "text": "T_{1} shortens at low field, so tissues recover more within TR; TR can drop to restore T_{1} weighting"
+    },
+    {
+     "id": "C",
+     "text": "Relaxation times are tissue constants, so contrast is unchanged and only SNR drops"
+    },
+    {
+     "id": "D",
+     "text": "T_{2} shortens far more than T_{1}, so the scan becomes T_{2}-weighted at the same TR"
+    }
+   ],
+   "answer": "B",
+   "explanation": "T_{1} of brain tissue shortens markedly as B_{0} decreases (T_{1} dispersion), while T_{2} changes much less. With the same TR, longitudinal recovery is more complete, so T_{1} contrast is reduced; shortening TR restores weighting and also helps recover SNR per unit time.",
+   "distractor_notes": {
+    "A": "Reverses the direction of T_{1} dispersion: the most common misconception.",
+    "C": "Treats relaxation as field-independent.",
+    "D": "T_{2} is comparatively field-insensitive in this range; the claim inverts which time constant moves."
+   },
+   "hint": "Before choosing, decide which way T_{1} moves when B_{0} drops, then ask what that does to recovery within a fixed TR.",
+   "sources": [
+    {
+     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
+     "url": "https://doi.org/10.1002/jmri.26637",
+     "note": "Section on relaxation-time field dependence"
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "type": "mc",
+   "kind": "new",
+   "bloom": "analyze",
+   "concept": "Noise regimes",
+   "points": 1,
+   "prompt": "Which noise source typically dominates in a head scan at 64 mT, and why does that matter for design?",
+   "options": [
+    {
+     "id": "A",
+     "text": "Patient (sample) noise, so improving the coil barely helps"
+    },
+    {
+     "id": "B",
+     "text": "Coil and preamp noise, so receive-chain quality sets SNR"
+    },
+    {
+     "id": "C",
+     "text": "Gradient amplifier noise, so gradient strength sets SNR"
+    },
+    {
+     "id": "D",
+     "text": "Quantization noise in the ADC, so more ADC bits fix SNR"
+    }
+   ],
+   "answer": "B",
+   "explanation": "Sample (body) noise scales with frequency, so it dominates at high field. At low frequency it falls below the coil's own thermal noise, so the receive chain (coil losses, preamp) becomes the main lever on SNR.",
+   "distractor_notes": {
+    "A": "True at clinical high fields, which is why the intuition is tempting.",
+    "C": "Gradient noise isn't the dominant thermal noise source in the received signal.",
+    "D": "Modern ADCs are rarely the limiting factor."
+   },
+   "sources": [
+    {
+     "title": "Hoult DI, Richards RE. The signal-to-noise ratio of the nuclear magnetic resonance experiment. J Magn Reson. 1976;24:71-85",
+     "url": "https://doi.org/10.1016/0022-2364(76)90233-X"
+    },
+    {
+     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
+     "url": "https://doi.org/10.1002/jmri.26637"
+    }
+   ],
+   "objective": "U2.2",
+   "difficulty": 4,
+   "hint": "Which noise source grows with frequency? Now go to the low-frequency end."
+  },
+  {
+   "id": "q4",
+   "type": "mc",
+   "kind": "new",
+   "bloom": "apply",
+   "concept": "RF safety (SAR)",
+   "points": 1,
+   "prompt": "Specific absorption rate scales roughly with ω_{0}^{2}. Going from 1.5 T to 64 mT with an otherwise identical sequence, SAR changes by about:",
+   "options": [
+    {
+     "id": "A",
+     "text": "A factor of ~23 lower"
+    },
+    {
+     "id": "B",
+     "text": "A factor of ~4 lower"
+    },
+    {
+     "id": "C",
+     "text": "No change, because SAR depends on flip angle only"
+    },
+    {
+     "id": "D",
+     "text": "A factor of ~550 lower"
+    }
+   ],
+   "answer": "D",
+   "explanation": "Field ratio 1.5/0.064 ≈ 23.4; SAR ∝ B_{0}^{2} gives ≈ 23.4^{2} ≈ 550× lower. That's why SAR is rarely limiting at low field.",
+   "distractor_notes": {
+    "A": "Uses linear rather than quadratic scaling.",
+    "B": "No physical basis; a guess.",
+    "C": "Flip angle matters, but so does frequency."
+   },
+   "sources": [
+    {
+     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
+     "url": "https://doi.org/10.1002/jmri.26637"
+    }
+   ],
+   "objective": "U2.4",
+   "difficulty": 3
+  },
+  {
+   "id": "q5",
+   "type": "mc",
+   "kind": "pretest",
+   "bloom": "understand",
+   "concept": "Portable systems",
+   "points": 1,
+   "prompt": "Bedside studies of critically ill patients with a commercial portable scanner (Sheth et al., 2021) used a system with which main magnet?",
+   "options": [
+    {
+     "id": "A",
+     "text": "A 0.55 T superconducting magnet"
+    },
+    {
+     "id": "B",
+     "text": "A 64 mT permanent magnet"
+    },
+    {
+     "id": "C",
+     "text": "A 6.5 mT resistive electromagnet"
+    },
+    {
+     "id": "D",
+     "text": "A 1.5 T helium-free superconducting magnet"
+    }
+   ],
+   "answer": "B",
+   "explanation": "The portable system in that study used a 64 mT permanent magnet, which allows bedside use without cryogens or a shielded room.",
+   "distractor_notes": {
+    "A": "0.55 T is a mid-field superconducting system, not portable.",
+    "C": "Ultra-low-field research systems exist but weren't used here.",
+    "D": "Not portable."
+   },
+   "sources": [
+    {
+     "title": "Sheth KN, Mazurek MH, Yuen MM, et al. Assessment of brain injury using portable, low-field magnetic resonance imaging at the bedside of critically ill patients. JAMA Neurol. 2021;78(1):41-47",
+     "url": "https://doi.org/10.1001/jamaneurol.2020.3263"
+    }
+   ],
+   "objective": "U3.1",
+   "difficulty": 2
+  },
+  {
+   "id": "q6",
+   "type": "short",
+   "kind": "new",
+   "bloom": "analyze",
+   "concept": "SNR scaling",
+   "points": 4,
+   "expected_length": "4-6 sentences",
+   "prompt": "Explain why SNR falls faster than linearly with B_{0} in the low-field regime. State your noise assumptions.",
+   "rubric": [
+    {
+     "criterion": "Signal scaling",
+     "points": 2,
+     "description": "Equilibrium magnetization ∝ B_{0} and the induced EMF ∝ ω_{0}, so the received signal ∝ B_{0}^{2}."
+    },
+    {
+     "criterion": "Noise regime and conclusion",
+     "points": 2,
+     "description": "At low field, coil noise dominates and scales only weakly with frequency (~ω^{1/4} with skin-effect resistance), so SNR scales roughly as B_{0}^{7/4}; contrasts with ~B_{0} at high field where sample noise dominates."
+    }
+   ],
+   "model_answer": "Signal ∝ M_{0}·ω_{0} ∝ B_{0}^{2}. Noise ∝ √(R·Δf). At high field, sample resistance (∝ ω^{2}) dominates, so noise ∝ B_{0} and SNR ∝ B_{0}. At low field, coil resistance dominates (∝ √ω from skin effect), so noise ∝ ω^{1/4} and SNR ∝ B_{0}^{7/4}: a steeper loss than linear.",
+   "alternatives": "Framing via the coil/sample-noise crossover frequency, or via preamplifier noise figure, earns full credit if the scaling argument is right. Exponents between ~1.5 and 2 with a stated assumption are acceptable.",
+   "sources": [
+    {
+     "title": "Hoult DI, Richards RE. The signal-to-noise ratio of the nuclear magnetic resonance experiment. J Magn Reson. 1976;24:71-85",
+     "url": "https://doi.org/10.1016/0022-2364(76)90233-X"
+    },
+    {
+     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
+     "url": "https://doi.org/10.1002/jmri.26637"
+    }
+   ],
+   "objective": "U2.1",
+   "difficulty": 4
+  }
+ ],
+ "review_note": "Re-solved all MC keys independently. Reworded q3 so 'sample noise' is clearly tied to field strength. Checked q4 arithmetic (23.4² ≈ 548). Answer letters spread A/C/B/D/B. Marked q5 as a low-stakes preview of the portable-systems topic. Rewrote q2 from recall into a protocol-prediction item (analyze) after the review flagged it as too easy."
+}

@@ -1,0 +1,500 @@
+<title>__EXAM_TITLE__</title>
+<style>
+:root{
+  --bg:#f6f7fb;--surface:#ffffff;--surface-2:#f1f3f9;--text:#141826;--muted:#5b6478;--border:#e2e6ef;
+  --accent:#4f46e5;--accent-ink:#ffffff;--accent-soft:#eef0ff;
+  --ok:#15803d;--ok-soft:#e8f6ed;--partial:#b45309;--partial-soft:#fdf3e2;--bad:#b91c1c;--bad-soft:#fdecec;
+  --shadow:0 1px 2px rgba(16,24,40,.05),0 4px 16px rgba(16,24,40,.06);
+  --radius:16px;--radius-sm:10px;
+  --font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d1017;--surface:#161a23;--surface-2:#1d2230;--text:#e8ebf2;--muted:#9aa3b5;--border:#2a3040;
+  --accent:#8b8cff;--accent-ink:#0d1017;--accent-soft:#23264a;
+  --ok:#4ade80;--ok-soft:#12291b;--partial:#fbbf24;--partial-soft:#2e2410;--bad:#f87171;--bad-soft:#321617;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);}}
+:root[data-theme="dark"]{
+  --bg:#0d1017;--surface:#161a23;--surface-2:#1d2230;--text:#e8ebf2;--muted:#9aa3b5;--border:#2a3040;
+  --accent:#8b8cff;--accent-ink:#0d1017;--accent-soft:#23264a;
+  --ok:#4ade80;--ok-soft:#12291b;--partial:#fbbf24;--partial-soft:#2e2410;--bad:#f87171;--bad-soft:#321617;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.6 var(--font);-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 96px}
+h1{font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.2;margin:.2em 0 .3em;letter-spacing:-.02em}
+h2{font-size:1.15rem;margin:0 0 .5em}
+.muted{color:var(--muted)}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.75rem;font-weight:700;color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:12px 14px}
+.stat b{display:block;font-size:1.35rem}
+.stat span{font-size:.82rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:3px 10px;font-size:.82rem;font-weight:600}
+button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);padding:10px 16px;transition:transform .08s,background .15s,border-color .15s}
+button:hover{border-color:var(--accent)}
+button:active{transform:scale(.98)}
+button:focus-visible,textarea:focus-visible,.opt:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.primary:hover{filter:brightness(1.07)}
+.ghost{background:transparent}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.spacer{flex:1}
+/* sticky bar */
+.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.bar .wrap{padding-top:10px;padding-bottom:10px;display:flex;align-items:center;gap:12px}
+.timer{font:700 1.15rem var(--mono);padding:6px 12px;border-radius:10px;background:var(--surface-2);min-width:92px;text-align:center}
+.timer.warn{background:var(--partial-soft);color:var(--partial)}
+.timer.crit{background:var(--bad-soft);color:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.timer.crit{animation:none}}
+.progress{flex:1;height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+/* questions */
+.q-head{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-bottom:6px}
+.q-num{font-weight:800;color:var(--accent)}
+.q-meta{font-size:.8rem;color:var(--muted)}
+.prompt{font-size:1.04rem;margin:6px 0 14px}
+.prompt code,.md code{font-family:var(--mono);background:var(--surface-2);padding:1px 6px;border-radius:6px;font-size:.92em}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;background:var(--surface);transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--accent)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .letter{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--surface-2);font-size:.9rem}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .letter{background:var(--accent);color:var(--accent-ink)}
+textarea{width:100%;min-height:140px;resize:vertical;font:inherit;color:var(--text);background:var(--surface-2);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px}
+textarea.long{min-height:320px}
+.wc{font-size:.8rem;color:var(--muted);text-align:right;margin-top:4px}
+.flag{font-size:.85rem;padding:6px 10px}
+.flag[aria-pressed="true"]{background:var(--partial-soft);border-color:var(--partial);color:var(--partial)}
+.nav-dots{display:flex;flex-wrap:wrap;gap:6px}
+.dot{width:34px;height:34px;padding:0;border-radius:10px;font-size:.82rem;font-weight:700}
+.dot.done{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.dot.flagged{box-shadow:inset 0 -3px 0 var(--partial)}
+/* results */
+.banner{border-radius:var(--radius);padding:14px 18px;margin:16px 0;font-weight:600;background:var(--partial-soft);color:var(--partial)}
+.score-ring{--p:0;width:132px;height:132px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--surface-2) 0)}
+.score-ring div{width:104px;height:104px;border-radius:50%;background:var(--surface);display:grid;place-items:center;text-align:center;line-height:1.1}
+.score-ring b{font-size:1.7rem}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem}
+.status{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.85rem;padding:3px 10px;border-radius:99px}
+.st-ok{background:var(--ok-soft);color:var(--ok)}.st-partial{background:var(--partial-soft);color:var(--partial)}.st-bad{background:var(--bad-soft);color:var(--bad)}.st-pending{background:var(--surface-2);color:var(--muted)}
+.res.ok{border-left:6px solid var(--ok)}.res.partial{border-left:6px solid var(--partial)}.res.bad{border-left:6px solid var(--bad)}.res.pending{border-left:6px solid var(--border)}
+.pts{font:700 1rem var(--mono);white-space:nowrap}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+.opt.correct .letter{background:var(--ok);color:var(--surface)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .letter{background:var(--bad);color:var(--surface)}
+.opt .tag{margin-left:auto;font-size:.78rem;font-weight:700;white-space:nowrap}
+.answer-box{background:var(--surface-2);border-radius:12px;padding:12px 14px;white-space:pre-wrap;font-size:.95rem}
+details{margin-top:12px;border-top:1px dashed var(--border);padding-top:10px}
+summary{cursor:pointer;font-weight:700}
+.crit{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}
+.crit:last-child{border-bottom:0}
+.crit .desc{flex:1}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:none}
+.seg button{border:0;border-radius:0;padding:6px 10px;font-size:.82rem}
+.seg button[aria-pressed="true"].f{background:var(--ok-soft);color:var(--ok)}
+.seg button[aria-pressed="true"].h{background:var(--partial-soft);color:var(--partial)}
+.seg button[aria-pressed="true"].n{background:var(--bad-soft);color:var(--bad)}
+.ai-fb{background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin-top:10px;font-size:.95rem}
+.sources{padding-left:18px;margin:6px 0}
+.sources a{color:var(--accent)}
+.conf{gap:6px;margin-top:12px}
+.conf button{padding:5px 12px;font-size:.82rem;border-radius:99px}
+.conf button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.hc{border:1.5px dashed var(--bad);background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:8px 12px;margin:10px 0;font-size:.9rem;font-weight:600}
+.cal{width:100%;border-collapse:collapse;font-size:.9rem}.cal td,.cal th{padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
+.bar-mini{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;min-width:80px}.bar-mini i{display:block;height:100%}
+.kind{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:1px 6px}
+.hidden{display:none!important}
+@media (max-width:560px){.card{padding:16px}.bar .wrap{gap:8px}.timer{min-width:78px;font-size:1rem}}
+@media print{.bar,.no-print{display:none!important}body{background:#fff}.card{box-shadow:none;break-inside:avoid}}
+</style>
+
+<div id="app"></div>
+
+<script id="exam-data" type="application/json">__EXAM_JSON__</script>
+<script>
+(() => {
+  "use strict";
+  const EXAM = JSON.parse(document.getElementById("exam-data").textContent);
+  const M = EXAM.meta || {};
+  const Q = EXAM.questions || [];
+  const $app = document.getElementById("app");
+  const STORE_KEY = "exam-coach:" + (M.series || "") + ":" + (M.number || "") + ":" + (M.date || "");
+
+  // ---------- helpers ----------
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  // tiny, safe markdown: escape first, then `code`, **bold**, *italic*, ^{sup}, _{sub}, line breaks
+  const md = s => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
+    .replace(/\^\{([^}]+)\}/g, "<sup>$1</sup>")
+    .replace(/_\{([^}]+)\}/g, "<sub>$1</sub>")
+    .replace(/\n/g, "<br>");
+  const el = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
+  const fmt = n => (Math.round(n * 100) / 100).toString();
+  const totalPts = Q.reduce((a, q) => a + (+q.points || 0), 0);
+  const words = s => (s.trim().match(/\S+/g) || []).length;
+  const typeLabel = t => ({mc: "Multiple choice", short: "Short reasoning", long: "Long reasoning"}[t] || t);
+  const store = {
+    get() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || null; } catch { return null; } },
+    set(v) { try { localStorage.setItem(STORE_KEY, JSON.stringify(v)); } catch {} },
+    clear() { try { localStorage.removeItem(STORE_KEY); } catch {} }
+  };
+
+  // ---------- state ----------
+  let S = store.get() || { phase: "intro", answers: {}, flags: {}, startedAt: null, endedAt: null, expired: false, grades: {}, ai: {}, conf: {}, hints: {}, reflection: "" };
+  S.conf = S.conf || {}; S.hints = S.hints || {};
+  const CONF = [["guess", "Guess"], ["unsure", "Unsure"], ["sure", "Sure"]];
+  const KIND = {review: "Spaced review", new: "New", transfer: "Transfer", pretest: "Preview (low stakes)"};
+  const save = () => store.set(S);
+  const limitMs = M.time_limit_minutes ? M.time_limit_minutes * 60000 : null;
+  let tick = null;
+
+  // optional runtime capabilities (only inside a claude.ai artifact)
+  let sample = null, db = null;
+  if (window.claude && typeof window.claude.use === "function") {
+    window.claude.use("sample").then(s => { sample = s; if (S.phase === "results") renderResults(); }).catch(() => {});
+    window.claude.use("db").then(d => { db = d; }).catch(() => {});
+  }
+
+  // ---------- intro ----------
+  function renderIntro() {
+    const counts = ["mc", "short", "long"].map(t => [t, Q.filter(q => q.type === t)]).filter(([, a]) => a.length);
+    $app.innerHTML = "";
+    const prof = M.professor || {};
+    $app.append(el(`<div class="wrap">
+      <div class="eyebrow">${esc(M.series || "Practice exam")}${M.number ? " · #" + esc(M.number) : ""}</div>
+      <h1>${esc(M.title || "Exam")}</h1>
+      <p class="muted">${esc(M.field || "")}${M.level ? " · " + esc(M.level) : ""}${M.date ? " · " + esc(M.date) : ""}</p>
+      <div class="card">
+        <h2>Your examiner</h2>
+        <p style="margin:0"><strong>${esc(prof.name || "The professor")}</strong>${prof.persona ? " — " + md(prof.persona) : ""}</p>
+        ${(M.topics || []).length ? `<div class="chips">${M.topics.map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>` : ""}
+        <div class="grid">
+          <div class="stat"><b>${Q.length}</b><span>questions</span></div>
+          <div class="stat"><b>${fmt(totalPts)}</b><span>total points</span></div>
+          <div class="stat"><b>${limitMs ? M.time_limit_minutes + " min" : "Untimed"}</b><span>time limit</span></div>
+          ${counts.map(([t, a]) => `<div class="stat"><b>${a.length}</b><span>${typeLabel(t)} · ${fmt(a.reduce((x, q) => x + q.points, 0))} pts</span></div>`).join("")}
+        </div>
+        ${M.instructions ? `<div class="md">${md(M.instructions)}</div>` : ""}
+        <p class="muted" style="font-size:.9rem">Reasoning questions are graded on the quality of your argument. A well-defended answer that differs from the key can earn full credit.${limitMs ? " The exam submits automatically when time runs out." : ""}</p>
+        <div class="row"><button class="primary" id="start">Start exam</button>
+        ${limitMs ? `<label class="muted" style="font-size:.9rem">Time limit <input id="tl" type="number" min="5" max="600" value="${M.time_limit_minutes}" style="width:72px;font:inherit;padding:6px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text)"> min</label>` : ""}</div>
+      </div></div>`));
+    document.getElementById("start").onclick = () => {
+      const tl = document.getElementById("tl");
+      if (tl && +tl.value > 0) S.limitOverride = +tl.value * 60000;
+      S.phase = "exam"; S.startedAt = Date.now(); save(); renderExam();
+    };
+  }
+
+  // ---------- exam ----------
+  const effLimit = () => S.limitOverride || limitMs;
+  function renderExam() {
+    $app.innerHTML = "";
+    const bar = el(`<div class="bar"><div class="wrap">
+      <div class="timer" id="timer" role="timer" aria-live="off">${effLimit() ? "--:--" : "∞"}</div>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+      <span class="muted" id="progtxt" style="font-size:.85rem"></span>
+      <button class="primary" id="submit">Submit</button></div></div>`);
+    const body = el(`<div class="wrap"></div>`);
+    body.append(el(`<div class="card no-print"><div class="row"><strong>Jump to</strong><span class="spacer"></span><span class="muted" style="font-size:.82rem">underline = flagged</span></div><div class="nav-dots" id="dots" style="margin-top:10px"></div></div>`));
+    Q.forEach((q, i) => body.append(questionCard(q, i)));
+    body.append(el(`<div class="row" style="justify-content:flex-end"><button class="primary" id="submit2">Submit exam</button></div>`));
+    $app.append(bar, body);
+    const confirmSubmit = () => {
+      const unanswered = Q.filter(q => !answered(q)).length;
+      const btn = document.getElementById("submit");
+      if (unanswered && btn.dataset.confirm !== "1") {
+        btn.dataset.confirm = "1"; btn.textContent = `${unanswered} unanswered — submit anyway?`;
+        setTimeout(() => { btn.dataset.confirm = ""; btn.textContent = "Submit"; }, 4000);
+        btn.scrollIntoView({block: "nearest"}); return;
+      }
+      finish(false);
+    };
+    document.getElementById("submit").onclick = confirmSubmit;
+    document.getElementById("submit2").onclick = () => { document.getElementById("submit").click(); window.scrollTo({top: 0, behavior: "smooth"}); };
+    updateProgress(); startTimer();
+  }
+  const answered = q => { const a = S.answers[q.id]; return q.type === "mc" ? !!a : !!(a && a.trim()); };
+  function questionCard(q, i) {
+    const c = el(`<section class="card" id="q-${esc(q.id)}" aria-labelledby="qh-${esc(q.id)}">
+      <div class="q-head"><span class="q-num">Q${i + 1}</span><span class="q-meta">${typeLabel(q.type)} · ${fmt(q.points)} pt${q.points == 1 ? "" : "s"}${q.expected_length ? " · " + esc(q.expected_length) : ""}</span><span class="spacer"></span>
+      <button class="ghost flag" aria-pressed="${!!S.flags[q.id]}">⚑ Flag</button></div>
+      <div class="prompt" id="qh-${esc(q.id)}">${md(q.prompt)}</div></section>`);
+    if (q.type === "mc") {
+      const opts = el(`<div class="opts" role="radiogroup" aria-labelledby="qh-${esc(q.id)}"></div>`);
+      q.options.forEach(o => {
+        const lab = el(`<label class="opt${S.answers[q.id] === o.id ? " sel" : ""}"><input type="radio" name="${esc(q.id)}" value="${esc(o.id)}" ${S.answers[q.id] === o.id ? "checked" : ""}><span class="letter">${esc(o.id)}</span><span>${md(o.text)}</span></label>`);
+        lab.querySelector("input").onchange = () => {
+          S.answers[q.id] = o.id; save();
+          opts.querySelectorAll(".opt").forEach(x => x.classList.toggle("sel", x === lab)); updateProgress();
+        };
+        opts.append(lab);
+      });
+      c.append(opts);
+    } else {
+      const ta = el(`<textarea class="${q.type === "long" ? "long" : ""}" aria-labelledby="qh-${esc(q.id)}" placeholder="Write your reasoning here…"></textarea>`);
+      ta.value = S.answers[q.id] || "";
+      const wc = el(`<div class="wc">${words(ta.value)} words</div>`);
+      ta.oninput = () => { S.answers[q.id] = ta.value; wc.textContent = words(ta.value) + " words"; save(); updateProgress(); };
+      c.append(ta, wc);
+    }
+    if (q.hint) {
+      const hb = el(`<div class="no-print" style="margin-top:10px"><button class="ghost hint-btn" style="font-size:.85rem;padding:6px 12px">Ask the professor for a nudge</button><div class="ai-fb hint-txt ${S.hints[q.id] ? "" : "hidden"}">${md(q.hint)}</div></div>`);
+      hb.querySelector("button").onclick = () => { S.hints[q.id] = true; save(); hb.querySelector(".hint-txt").classList.remove("hidden"); };
+      c.append(hb);
+    }
+    // confidence rating: feeds calibration and the hypercorrection check in results
+    const conf = el(`<div class="conf row no-print" role="group" aria-label="How confident are you?"><span class="muted" style="font-size:.85rem">Confidence</span>
+      ${CONF.map(([k, lab]) => `<button class="c-${k}" aria-pressed="${S.conf[q.id] === k}" data-k="${k}">${lab}</button>`).join("")}</div>`);
+    conf.querySelectorAll("button").forEach(b => b.onclick = () => {
+      S.conf[q.id] = b.dataset.k; save();
+      conf.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    });
+    c.append(conf);
+    const fb = c.querySelector(".flag");
+    fb.onclick = () => { S.flags[q.id] = !S.flags[q.id]; fb.setAttribute("aria-pressed", !!S.flags[q.id]); save(); updateProgress(); };
+    return c;
+  }
+  function updateProgress() {
+    const done = Q.filter(answered).length;
+    const p = document.getElementById("prog"); if (p) p.style.width = (100 * done / Q.length) + "%";
+    const t = document.getElementById("progtxt"); if (t) t.textContent = `${done}/${Q.length}`;
+    const dots = document.getElementById("dots"); if (!dots) return;
+    dots.innerHTML = "";
+    Q.forEach((q, i) => {
+      const b = el(`<button class="dot${answered(q) ? " done" : ""}${S.flags[q.id] ? " flagged" : ""}" aria-label="Question ${i + 1}${answered(q) ? ", answered" : ""}${S.flags[q.id] ? ", flagged" : ""}">${i + 1}</button>`);
+      b.onclick = () => document.getElementById("q-" + q.id).scrollIntoView({behavior: "smooth", block: "start"});
+      dots.append(b);
+    });
+  }
+  function startTimer() {
+    clearInterval(tick);
+    const L = effLimit(); const t = document.getElementById("timer");
+    if (!L || !t) return;
+    const step = () => {
+      const left = L - (Date.now() - S.startedAt);
+      if (left <= 0) { finish(true); return; }
+      const m = Math.floor(left / 60000), s = Math.floor(left / 1000) % 60;
+      t.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+      t.classList.toggle("warn", left <= 600000 && left > 120000);
+      t.classList.toggle("crit", left <= 120000);
+      if (left <= 600000 && !S._warned10) { S._warned10 = 1; t.setAttribute("aria-label", "10 minutes left"); }
+    };
+    step(); tick = setInterval(step, 500);
+  }
+
+  // ---------- grading ----------
+  function gradeMC(q) { const a = S.answers[q.id]; return a === q.answer ? q.points : 0; }
+  // written: S.grades[qid] = {criterionIndex: fraction 0|0.5|1}
+  function gradeWritten(q) {
+    const g = S.grades[q.id]; if (!g) return null;
+    const rub = q.rubric || [];
+    if (rub.some((_, i) => g[i] == null)) return null;
+    return rub.reduce((a, r, i) => a + r.points * g[i], 0);
+  }
+  function earned(q) { return q.type === "mc" ? gradeMC(q) : gradeWritten(q); }
+  function status(q) {
+    const e = earned(q);
+    if (e == null) return "pending";
+    if (e >= q.points - 1e-9) return "ok";
+    if (e <= 1e-9) return "bad";
+    return "partial";
+  }
+  const isHyper = q => S.conf[q.id] === "sure" && ["bad", "partial"].includes(status(q)) && (earned(q) || 0) < q.points * 0.5;
+  const STATUS = {ok: ["st-ok", "✓ Correct"], partial: ["st-partial", "½ Partial"], bad: ["st-bad", "✗ Incorrect"], pending: ["st-pending", "○ Needs grading"]};
+
+  function finish(expired) {
+    clearInterval(tick);
+    S.phase = "results"; S.endedAt = Date.now(); S.expired = expired;
+    // empty written answers score 0 automatically
+    Q.filter(q => q.type !== "mc" && !(S.answers[q.id] || "").trim()).forEach(q => { S.grades[q.id] = Object.fromEntries((q.rubric || []).map((_, i) => [i, 0])); });
+    save(); renderResults(); window.scrollTo({top: 0});
+  }
+
+  async function aiGrade(q, btn) {
+    if (!sample) return;
+    btn.disabled = true; btn.textContent = "Claude is grading…";
+    const prompt = `You are grading one exam answer as this examiner: ${(M.professor || {}).name || "a professor"} — ${(M.professor || {}).persona || ""}.
+Field: ${M.field || ""}. Level: ${M.level || ""}.
+Critical thinking matters most: a well-argued answer that reaches a different but defensible conclusion can earn full credit. Give partial credit for correct reasoning with small slips.
+QUESTION:\n${q.prompt}
+RUBRIC (index: points — criterion: description):\n${(q.rubric || []).map((r, i) => `${i}: ${r.points} — ${r.criterion}: ${r.description || ""}`).join("\n")}
+ALTERNATIVE VALID APPROACHES:\n${q.alternatives || "(none listed)"}
+REFERENCE ANSWER (a guide, not the only acceptable answer):\n${q.model_answer || ""}
+STUDENT ANSWER:\n${S.answers[q.id] || ""}
+Return JSON only: {"criteria":[{"index":0,"fraction":1|0.5|0,"comment":"..."}],"feedback":"2-4 sentences in the examiner's voice: what was strong, what was missing, what to push on next."}`;
+    try {
+      const r = await sample.json(prompt, {modelTier: "default"});
+      const g = {};
+      (r.criteria || []).forEach(c => { const f = +c.fraction; g[c.index] = f >= 0.75 ? 1 : f >= 0.25 ? 0.5 : 0; });
+      (q.rubric || []).forEach((_, i) => { if (g[i] == null) g[i] = 0; });
+      S.grades[q.id] = g; S.ai[q.id] = {feedback: r.feedback || "", comments: Object.fromEntries((r.criteria || []).map(c => [c.index, c.comment || ""]))};
+      save(); renderResults(q.id);
+    } catch (e) {
+      btn.disabled = false; btn.textContent = e && e.code === "rate_limited" ? "Busy — try again in a minute" : "Couldn't grade — score it yourself below";
+    }
+  }
+
+  function resultItems() {
+    return Q.map(q => ({id: q.id, concept: q.concept || "", type: q.type, kind: q.kind || "", bloom: q.bloom || "",
+      objective: q.objective || "", earned: earned(q), points: q.points, status: status(q), confidence: S.conf[q.id] || "", hint_used: !!S.hints[q.id]}));
+  }
+  function resultRecord() {
+    const got = Q.reduce((a, q) => a + (earned(q) || 0), 0);
+    return {series: M.series || "", number: M.number || null, date: new Date(S.endedAt).toISOString().slice(0, 10),
+      score: got, total: totalPts, minutes: Math.round((S.endedAt - S.startedAt) / 60000), reflection: S.reflection || "", items: resultItems()};
+  }
+  async function saveResult() {
+    if (!db || Q.some(q => earned(q) == null)) return;
+    try {
+      const got = Q.reduce((a, q) => a + earned(q), 0);
+      await db.doc("results/" + (M.number || "x") + "-" + S.endedAt).set({
+        series: M.series || "", number: M.number || null, date: M.date || "", submittedAt: S.endedAt,
+        score: got, total: totalPts, minutes: Math.round((S.endedAt - S.startedAt) / 60000),
+        reflection: S.reflection || "",
+        items: resultItems()
+      });
+      S.savedToDb = true; save();
+    } catch {}
+  }
+
+  // ---------- results ----------
+  function renderResults(focusId) {
+    $app.innerHTML = "";
+    const w = el(`<div class="wrap"></div>`);
+    const graded = Q.filter(q => earned(q) != null);
+    const got = graded.reduce((a, q) => a + earned(q), 0);
+    const pending = Q.length - graded.length;
+    const pct = totalPts ? Math.round(100 * got / totalPts) : 0;
+    const mins = Math.max(1, Math.round((S.endedAt - S.startedAt) / 60000));
+    const sec = t => { const a = Q.filter(q => q.type === t); if (!a.length) return ""; const g = a.filter(q => earned(q) != null).reduce((x, q) => x + earned(q), 0); return `<div class="stat"><b>${fmt(g)} / ${fmt(a.reduce((x, q) => x + q.points, 0))}</b><span>${typeLabel(t)}</span></div>`; };
+    const counts = {ok: 0, partial: 0, bad: 0, pending: 0}; Q.forEach(q => counts[status(q)]++);
+    w.append(el(`<div><div class="eyebrow">Results · ${esc(M.series || "")}${M.number ? " #" + esc(M.number) : ""}</div><h1>${esc(M.title || "Exam")}</h1></div>`));
+    if (S.expired) w.append(el(`<div class="banner">⏱ Time expired — your answers were submitted automatically.</div>`));
+    w.append(el(`<div class="card"><div class="row" style="gap:22px;align-items:center">
+      <div class="score-ring" style="--p:${pct}"><div><b>${pct}%</b><span class="muted" style="font-size:.8rem">${fmt(got)} / ${fmt(totalPts)}</span></div></div>
+      <div style="flex:1;min-width:220px">
+        <div class="legend"><span class="status st-ok">✓ ${counts.ok} correct</span><span class="status st-partial">½ ${counts.partial} partial</span><span class="status st-bad">✗ ${counts.bad} incorrect</span>${pending ? `<span class="status st-pending">○ ${pending} to grade</span>` : ""}</div>
+        <div class="grid" style="margin-bottom:0">${sec("mc")}${sec("short")}${sec("long")}<div class="stat"><b>${mins} min</b><span>time used</span></div></div>
+      </div></div>
+      ${pending ? `<p class="muted" style="margin-bottom:0">Written answers need grading: ${sample ? "use <strong>Grade with Claude</strong> or score" : "score"} each rubric criterion below. The total updates as you go.</p>` : ""}
+    </div>`));
+    // review list
+    const weak = Q.filter(q => ["bad", "partial"].includes(status(q)));
+    if (weak.length) {
+      const concepts = [...new Set(weak.map(q => q.concept).filter(Boolean))];
+      w.append(el(`<div class="card"><h2>What to review next</h2><ul style="margin:0;padding-left:20px">${(concepts.length ? concepts : weak.map(q => "Q" + (Q.indexOf(q) + 1))).map(c => `<li>${esc(c)}</li>`).join("")}</ul></div>`));
+    }
+    // calibration: how accuracy tracks stated confidence
+    const rated = Q.filter(q => S.conf[q.id] && earned(q) != null);
+    if (rated.length) {
+      const rows = CONF.map(([k, lab]) => {
+        const a = rated.filter(q => S.conf[q.id] === k); if (!a.length) return "";
+        const acc = Math.round(100 * a.reduce((x, q) => x + earned(q) / q.points, 0) / a.length);
+        const col = acc >= 80 ? "var(--ok)" : acc >= 40 ? "var(--partial)" : "var(--bad)";
+        return `<tr><td>${lab}</td><td>${a.length}</td><td><div class="bar-mini"><i style="width:${acc}%;background:${col}"></i></div></td><td>${acc}%</td></tr>`;
+      }).join("");
+      const hcN = Q.filter(isHyper).length;
+      w.append(el(`<div class="card"><h2>Confidence check</h2>
+        <table class="cal"><tr><th>You said</th><th>Items</th><th>Accuracy</th><th></th></tr>${rows}</table>
+        <p class="muted" style="margin-bottom:0;font-size:.9rem">Well calibrated learners are right about 90%+ of the time when “Sure”.${hcN ? ` <strong style="color:var(--bad)">${hcN} confident error${hcN > 1 ? "s" : ""}</strong>: these are the most valuable to re-study, because fixing a belief you were sure about tends to stick.` : ""}</p></div>`));
+    }
+    Q.forEach((q, i) => w.append(resultCard(q, i)));
+    const refl = el(`<div class="card no-print"><h2>One-minute reflection</h2>
+      <p class="muted" style="margin-top:0;font-size:.9rem">What tripped you up, and what will you do differently before the next exam? (Saved with your results.)</p>
+      <textarea style="min-height:90px"></textarea></div>`);
+    const rta = refl.querySelector("textarea"); rta.value = S.reflection || "";
+    rta.oninput = () => { S.reflection = rta.value; save(); };
+    rta.onchange = () => { if (S.savedToDb) { S.savedToDb = false; saveResult(); } };
+    w.append(refl);
+    w.append(el(`<div class="row no-print" style="justify-content:space-between;margin-top:20px">
+      <button id="print">Print / save PDF</button>
+      <button id="export">Copy results for next exam</button>
+      <button class="ghost" id="reset">Retake from scratch</button></div>`));
+    $app.append(w);
+    document.getElementById("print").onclick = () => window.print();
+    const ex = document.getElementById("export");
+    ex.onclick = async () => {
+      const txt = JSON.stringify(resultRecord(), null, 1);
+      try { await navigator.clipboard.writeText(txt); ex.textContent = "Copied ✓: paste it to Claude or into history.json"; }
+      catch { const t = el(`<textarea style="min-height:160px"></textarea>`); t.value = txt; ex.after(t); t.select(); ex.textContent = "Copy the text below"; }
+    };
+    const rb = document.getElementById("reset");
+    rb.onclick = () => { if (rb.dataset.c !== "1") { rb.dataset.c = "1"; rb.textContent = "Click again to erase answers"; return; } store.clear(); S = {phase: "intro", answers: {}, flags: {}, grades: {}, ai: {}, conf: {}, hints: {}, reflection: ""}; renderIntro(); };
+    if (!pending && !S.savedToDb) saveResult();
+    if (focusId) { const n = document.getElementById("r-" + focusId); n && n.scrollIntoView({block: "start"}); }
+  }
+
+  function sourcesHtml(q) {
+    if (!(q.sources || []).length) return "";
+    return `<div style="margin-top:8px"><strong>Sources</strong><ol class="sources">${q.sources.map(s => `<li>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>` : esc(s.title)}${s.note ? ` <span class="muted">— ${esc(s.note)}</span>` : ""}</li>`).join("")}</ol></div>`;
+  }
+
+  function resultCard(q, i) {
+    const st = status(q), [cls, label] = STATUS[st], e = earned(q);
+    const c = el(`<section class="card res ${st}" id="r-${esc(q.id)}">
+      <div class="q-head"><span class="q-num">Q${i + 1}</span><span class="status ${cls}">${label}</span><span class="spacer"></span>
+      ${q.kind ? `<span class="kind">${esc(KIND[q.kind] || q.kind)}</span>` : ""}
+      <span class="pts">${e == null ? "–" : fmt(e)} / ${fmt(q.points)}</span></div>
+      <div class="prompt">${md(q.prompt)}</div></section>`);
+    if (isHyper(q)) c.append(el(`<div class="hc">⚠ You marked this “Sure” and missed it. Read the explanation closely: this is the misconception to fix first.</div>`));
+    if (S.conf[q.id]) c.querySelector(".q-head").append(el(`<span class="q-meta">· you said ${esc(S.conf[q.id])}</span>`));
+    if (S.hints[q.id]) c.querySelector(".q-head").append(el(`<span class="q-meta">· used a hint</span>`));
+    if (q.concept || q.objective) c.insertBefore(el(`<div class="q-meta" style="margin:-2px 0 8px">Concept: <strong>${esc(q.concept || "")}</strong>${q.objective ? ` · objective ${esc(q.objective)}${q.objective_text ? ": " + esc(q.objective_text) : ""}` : ""}</div>`), c.querySelector(".prompt"));
+    if (q.type === "mc") {
+      const opts = el(`<div class="opts"></div>`);
+      const chosen = S.answers[q.id];
+      q.options.forEach(o => {
+        const isKey = o.id === q.answer, isMine = o.id === chosen;
+        const k = isKey ? "correct" : (isMine ? "wrong" : "");
+        const tag = isKey && isMine ? "Your answer ✓" : isKey ? "Correct answer" : isMine ? "Your answer" : "";
+        opts.append(el(`<div class="opt ${k}"><span class="letter">${esc(o.id)}</span><span>${md(o.text)}</span>${tag ? `<span class="tag">${tag}</span>` : ""}</div>`));
+      });
+      c.append(opts);
+      if (!chosen) c.append(el(`<p class="muted">Not answered.</p>`));
+      const dn = q.distractor_notes || {};
+      c.append(el(`<details ${st !== "ok" ? "open" : ""}><summary>Explanation</summary><div class="md" style="margin-top:8px">${md(q.explanation || "")}</div>
+        ${Object.keys(dn).length ? `<ul style="padding-left:20px">${Object.entries(dn).map(([k, v]) => `<li><strong>${esc(k)}:</strong> ${md(v)}</li>`).join("")}</ul>` : ""}${sourcesHtml(q)}</details>`));
+    } else {
+      c.append(el(`<div><div class="q-meta" style="margin-bottom:4px">Your answer · ${words(S.answers[q.id] || "")} words</div><div class="answer-box">${esc(S.answers[q.id] || "(no answer)")}</div></div>`));
+      const ai = S.ai[q.id];
+      if (ai && ai.feedback) c.append(el(`<div class="ai-fb"><strong>Examiner's feedback</strong><br>${md(ai.feedback)}</div>`));
+      if ((S.answers[q.id] || "").trim() && sample) {
+        const b = el(`<button class="primary no-print" style="margin-top:12px">${ai ? "Re-grade with Claude" : "Grade with Claude"}</button>`);
+        b.onclick = () => aiGrade(q, b); c.append(b);
+      }
+      const rub = el(`<div style="margin-top:12px"><strong>Rubric</strong></div>`);
+      const g = S.grades[q.id] || {};
+      (q.rubric || []).forEach((r, ri) => {
+        const row = el(`<div class="crit"><div class="desc"><strong>${esc(r.criterion)}</strong> <span class="muted">(${fmt(r.points)} pt${r.points == 1 ? "" : "s"})</span><br><span style="font-size:.92rem">${md(r.description || "")}</span>${ai && ai.comments && ai.comments[ri] ? `<div class="muted" style="font-size:.88rem;margin-top:4px">↳ ${esc(ai.comments[ri])}</div>` : ""}</div>
+          <div class="seg" role="group" aria-label="Score for ${esc(r.criterion)}"><button class="f" aria-pressed="${g[ri] === 1}">Full</button><button class="h" aria-pressed="${g[ri] === 0.5}">Half</button><button class="n" aria-pressed="${g[ri] === 0}">None</button></div></div>`);
+        row.querySelectorAll(".seg button").forEach((b, bi) => b.onclick = () => {
+          S.grades[q.id] = Object.assign({}, S.grades[q.id], {[ri]: [1, 0.5, 0][bi]}); save(); renderResults(q.id);
+        });
+        rub.append(row);
+      });
+      c.append(rub);
+      c.append(el(`<details ${st === "pending" ? "" : "open"}><summary>Reference answer & alternatives</summary>
+        <div class="md" style="margin-top:8px">${md(q.model_answer || "")}</div>
+        ${q.alternatives ? `<p><strong>Other valid approaches:</strong> ${md(q.alternatives)}</p>` : ""}${sourcesHtml(q)}</details>`));
+    }
+    return c;
+  }
+
+  // ---------- boot ----------
+  if (S.phase === "exam") {
+    if (effLimit() && Date.now() - S.startedAt >= effLimit()) finish(true); else renderExam();
+  } else if (S.phase === "results") renderResults();
+  else renderIntro();
+})();
+</script>

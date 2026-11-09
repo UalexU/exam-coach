@@ -1,0 +1,8 @@
+{
+  "name": "exam-coach",
+  "version": "1.0.0",
+  "description": "Hard, research-backed, syllabus-aligned practice exams on a spaced schedule, with an FSRS-style learner model, confidence calibration and color-coded grading.",
+  "author": { "name": "Alex Villalba Gonzalez" },
+  "license": "MIT",
+  "keywords": ["learning", "exams", "spaced-repetition", "retrieval-practice", "education", "skill"]
+}
