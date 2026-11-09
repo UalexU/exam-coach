@@ -92,8 +92,8 @@ class TestBuildCLI(unittest.TestCase):
             self.assertFalse(frag.lower().startswith("<!doctype"))
             self.assertNotIn("__EXAM_JSON__", frag)
             paper = (Path(d) / "paper.html").read_text()
-            self.assertNotIn("Larmor frequency\"", paper)  # no answer data in the paper
-            self.assertNotIn("42.58 MHz/T × 0.064", paper)
+            self.assertNotIn("Solenoid field\"", paper)  # no answer data in the paper
+            self.assertNotIn("n = 400 / 0.20 m", paper)
 
     def test_check_fails_on_invalid(self):
         with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
@@ -109,8 +109,8 @@ class TestPrint(unittest.TestCase):
         paper, key = build_exam.render_paper(ex), build_exam.render_key(ex)
         first_paper = paper.split("Q1 ·")[1][:300]
         first_key = key.split("Q1 ·")[1][:300]
-        self.assertIn("64 mT", first_paper)
-        self.assertIn("64 mT", first_key)
+        self.assertIn("400 turns", first_paper)
+        self.assertIn("400 turns", first_key)
         self.assertIn("G/U/S", key)
         self.assertIn("Confidence:", paper)
 
@@ -137,8 +137,8 @@ class TestPlanNext(unittest.TestCase):
 
     def test_plan_prioritises_confident_errors(self):
         p = plan_next.plan(plan_next.build_model(HISTORY), date(2026, 11, 6), 12, 0.9)
-        self.assertIn("Gradient design", p["confident_errors_first"])
-        self.assertEqual(p["review_concepts"][0], "Gradient design")
+        self.assertIn("Magnetic force", p["confident_errors_first"])
+        self.assertEqual(p["review_concepts"][0], "Magnetic force")
         b = p["blueprint"]
         self.assertEqual(b["review"] + b["new"] + b["transfer"], 12)
 

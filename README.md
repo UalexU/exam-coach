@@ -4,7 +4,7 @@ A Claude skill that writes hard practice exams from your syllabus, every few day
 
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)
+![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 
 <p align="center">
   <img src="docs/images/results-light.png" width="62%" alt="Results page: score ring, confidence check, color-coded answers">
@@ -34,13 +34,13 @@ Take it in the browser (timed, autosaved, auto-graded, works on a phone) or prin
 
 Or copy `skills/exam-coach/` into `~/.claude/skills/`.
 
-Needs Python 3.9+ (standard library only). PDF export also needs Playwright + Chromium.
+Needs Python 3.10+ (standard library only). PDF export also needs Playwright + Chromium.
 
 ## Use
 
 Just ask:
 
-> Here's my syllabus for *Low-Field MRI Physics*. Every 3 days, give me a 40-minute exam (10 multiple choice, 2 short reasoning, 1 long reasoning) written by an MR hardware physicist who's strict about units. Make it hard.
+> Here's my syllabus for *Electromagnetism*. Every 3 days, give me a 40-minute exam (10 multiple choice, 2 short reasoning, 1 long reasoning) written by a physicist who builds electromagnets and is strict about units. Make it hard.
 
 > Plan exam #4 from my history.json, printable with an answer key.
 

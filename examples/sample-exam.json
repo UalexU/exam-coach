@@ -1,26 +1,26 @@
 {
  "meta": {
-  "series": "Low-Field MRI Exam Series",
+  "series": "Electromagnetism Exam Series",
   "number": 1,
-  "title": "Exam 1: Low-field MRI fundamentals",
+  "title": "Exam 1: Fields and electromagnets",
   "date": "2026-11-06",
-  "field": "Low-field MRI physics",
-  "level": "Graduate",
+  "field": "Electromagnetism",
+  "level": "Undergraduate",
   "professor": {
    "name": "Prof. Ada Lindqvist (persona)",
-   "persona": "MR physicist focused on hardware and SNR trade-offs. Socratic, strict on units and stated assumptions, and loves asking *what changes when B_{0} drops 50×?*"
+   "persona": "Experimental physicist who builds electromagnets. Socratic, strict on units and stated assumptions, and loves asking *where does the reluctance actually live?*"
   },
   "topics": [
-   "Larmor frequency",
-   "Relaxation vs field",
-   "Noise regimes",
-   "SNR scaling",
-   "RF safety",
-   "Portable systems"
+   "Solenoid field",
+   "Core saturation",
+   "Air gap dominance",
+   "Coil heating",
+   "Magnet choice",
+   "Magnetic circuits"
   ],
   "time_limit_minutes": 30,
   "instructions": "Answer every question. Show units and state assumptions in written answers. Rate your confidence honestly. It's how the next exam is planned.",
-  "syllabus": "Low-Field MRI Physics (graduate seminar)"
+  "syllabus": "Electromagnetism: Fields and Electromagnets (undergraduate)"
  },
  "questions": [
   {
@@ -28,43 +28,36 @@
    "type": "mc",
    "kind": "new",
    "bloom": "apply",
-   "concept": "Larmor frequency",
+   "concept": "Solenoid field",
    "points": 1,
-   "prompt": "A portable scanner operates at B_{0} = 64 mT. What is the proton Larmor frequency?",
+   "prompt": "A 20 cm long air-core solenoid has 400 turns and carries 2.0 A. What is the magnetic field near its center?",
    "options": [
-    {
-     "id": "A",
-     "text": "About 2.7 MHz"
-    },
-    {
-     "id": "B",
-     "text": "About 27 MHz"
-    },
-    {
-     "id": "C",
-     "text": "About 2.7 kHz"
-    },
-    {
-     "id": "D",
-     "text": "About 0.43 MHz"
-    }
+    {"id": "A", "text": "About 5.0 mT"},
+    {"id": "B", "text": "About 50 mT"},
+    {"id": "C", "text": "About 1.6 mT"},
+    {"id": "D", "text": "About 2.5 mT"}
    ],
    "answer": "A",
-   "explanation": "f_{0} = (γ/2π)·B_{0}, with γ/2π ≈ 42.58 MHz/T for ^{1}H. 42.58 MHz/T × 0.064 T ≈ 2.73 MHz.",
+   "explanation": "B = μ_{0}nI with n = 400 / 0.20 m = 2000 turns/m. B = (4π × 10^{-7} T·m/A)(2000 m^{-1})(2.0 A) ≈ 5.0 × 10^{-3} T = 5.0 mT.",
    "distractor_notes": {
-    "B": "A factor-of-ten slip converting mT to T.",
-    "C": "Multiplying MHz/T by 64 mT without converting mT to T, then mislabeling the unit.",
-    "D": "Dividing instead of multiplying, or using a different nucleus's gyromagnetic ratio."
+    "B": "Taking 20 cm as 0.02 m: a factor-of-ten slip converting cm to m.",
+    "C": "Dropping the π in μ_{0} = 4π × 10^{-7} T·m/A.",
+    "D": "Half the central value, which is the field at the end of a long solenoid, not at its center."
    },
    "sources": [
     {
-     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
-     "url": "https://doi.org/10.1002/jmri.26637"
+     "title": "Griffiths DJ. Introduction to Electrodynamics, 4th ed. Cambridge University Press; 2017",
+     "note": "Section 5.3, Ampère's law and the long solenoid"
+    },
+    {
+     "title": "Ling SJ, Sanny J, Moebs W. University Physics Volume 2. OpenStax; 2016",
+     "url": "https://openstax.org/details/books/university-physics-volume-2",
+     "note": "Chapter 12, Solenoids and toroids"
     }
    ],
    "objective": "U1.1",
    "difficulty": 2,
-   "hint": "Convert 64 mT to tesla first. Which unit does γ/2π carry?"
+   "hint": "Turns per meter first. And what number does μ_{0} really carry?"
   },
   {
    "id": "q2",
@@ -72,41 +65,28 @@
    "kind": "new",
    "bloom": "analyze",
    "difficulty": 4,
-   "concept": "Relaxation vs field",
+   "concept": "Core saturation",
    "objective": "U2.3",
    "points": 1,
-   "prompt": "You port a T_{1}-weighted brain protocol from 3 T to 64 mT and keep TR = 500 ms. Which prediction is best supported by low-field relaxation data?",
+   "prompt": "An iron-core electromagnet gives 1.2 T in its gap at 3 A. The steel core saturates near 1.6 T. You triple the current to 9 A. Which prediction is best supported?",
    "options": [
-    {
-     "id": "A",
-     "text": "T_{1} lengthens at low field, so TR = 500 ms now gives too little recovery and contrast collapses"
-    },
-    {
-     "id": "B",
-     "text": "T_{1} shortens at low field, so tissues recover more within TR; TR can drop to restore T_{1} weighting"
-    },
-    {
-     "id": "C",
-     "text": "Relaxation times are tissue constants, so contrast is unchanged and only SNR drops"
-    },
-    {
-     "id": "D",
-     "text": "T_{2} shortens far more than T_{1}, so the scan becomes T_{2}-weighted at the same TR"
-    }
+    {"id": "A", "text": "The field triples to about 3.6 T, because B is proportional to current"},
+    {"id": "B", "text": "The field rises only a little above 1.6 T: once the steel saturates, extra current adds field at roughly the air-core rate"},
+    {"id": "C", "text": "The field stays at exactly 1.2 T, because saturated iron blocks any further increase"},
+    {"id": "D", "text": "The field drops, because the extra current heats and demagnetizes the core"}
    ],
    "answer": "B",
-   "explanation": "T_{1} of brain tissue shortens markedly as B_{0} decreases (T_{1} dispersion), while T_{2} changes much less. With the same TR, longitudinal recovery is more complete, so T_{1} contrast is reduced; shortening TR restores weighting and also helps recover SNR per unit time.",
+   "explanation": "B is proportional to current only while the iron's permeability is high. Near 1.6 T the steel saturates and its relative permeability falls toward 1, so further current adds field only at about the rate of an air-core coil. 9 A gives a field a little above 1.6 T, far short of 3.6 T.",
    "distractor_notes": {
-    "A": "Reverses the direction of T_{1} dispersion: the most common misconception.",
-    "C": "Treats relaxation as field-independent.",
-    "D": "T_{2} is comparatively field-insensitive in this range; the claim inverts which time constant moves."
+    "A": "Applies the linear rule beyond saturation: the most common misconception.",
+    "C": "Saturation slows the rise; it doesn't stop it. Current still adds field through μ_{0}.",
+    "D": "Heating raises resistance, but the core is nowhere near its Curie temperature."
    },
-   "hint": "Before choosing, decide which way T_{1} moves when B_{0} drops, then ask what that does to recovery within a fixed TR.",
+   "hint": "Before choosing, ask what happens to the iron's permeability near 1.6 T, then what is left to carry the extra current's field.",
    "sources": [
     {
-     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
-     "url": "https://doi.org/10.1002/jmri.26637",
-     "note": "Section on relaxation-time field dependence"
+     "title": "Jiles D. Introduction to Magnetism and Magnetic Materials, 3rd ed. CRC Press; 2015",
+     "note": "Magnetization curves and saturation"
     }
    ]
   },
@@ -115,85 +95,62 @@
    "type": "mc",
    "kind": "new",
    "bloom": "analyze",
-   "concept": "Noise regimes",
+   "concept": "Air gap dominance",
    "points": 1,
-   "prompt": "Which noise source typically dominates in a head scan at 64 mT, and why does that matter for design?",
+   "prompt": "A C-shaped steel electromagnet (μ_{r} ≈ 2000, iron path 40 cm) has a 4 mm air gap. You want a stronger field in the gap without more current. Which change helps most?",
    "options": [
-    {
-     "id": "A",
-     "text": "Patient (sample) noise, so improving the coil barely helps"
-    },
-    {
-     "id": "B",
-     "text": "Coil and preamp noise, so receive-chain quality sets SNR"
-    },
-    {
-     "id": "C",
-     "text": "Gradient amplifier noise, so gradient strength sets SNR"
-    },
-    {
-     "id": "D",
-     "text": "Quantization noise in the ADC, so more ADC bits fix SNR"
-    }
+    {"id": "A", "text": "Swap the core for a steel with twice the permeability"},
+    {"id": "B", "text": "Narrow the air gap, since it holds most of the circuit's reluctance"},
+    {"id": "C", "text": "Lengthen the iron core to add more magnetic material"},
+    {"id": "D", "text": "Rewind the coil with thicker wire, keeping the same turns"}
    ],
    "answer": "B",
-   "explanation": "Sample (body) noise scales with frequency, so it dominates at high field. At low frequency it falls below the coil's own thermal noise, so the receive chain (coil losses, preamp) becomes the main lever on SNR.",
+   "explanation": "Compare effective lengths: the iron acts like 0.40 m / 2000 = 0.2 mm of air, while the gap is 4 mm. The gap holds about 95 % of the reluctance, so B ≈ μ_{0}NI / g. Halving the gap nearly doubles the field; doubling μ_{r} gains under 3 %.",
    "distractor_notes": {
-    "A": "True at clinical high fields, which is why the intuition is tempting.",
-    "C": "Gradient noise isn't the dominant thermal noise source in the received signal.",
-    "D": "Modern ADCs are rarely the limiting factor."
+    "A": "Feels right because iron is 'the magnetic part', but the iron is already a small share of the reluctance.",
+    "C": "A longer iron path adds reluctance, so the field drops slightly.",
+    "D": "Thicker wire lowers resistance and heating, but the field depends on N·I, which is unchanged."
    },
    "sources": [
     {
-     "title": "Hoult DI, Richards RE. The signal-to-noise ratio of the nuclear magnetic resonance experiment. J Magn Reson. 1976;24:71-85",
-     "url": "https://doi.org/10.1016/0022-2364(76)90233-X"
+     "title": "Griffiths DJ. Introduction to Electrodynamics, 4th ed. Cambridge University Press; 2017",
+     "note": "Section 6.3, the auxiliary field H"
     },
     {
-     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
-     "url": "https://doi.org/10.1002/jmri.26637"
+     "title": "Jiles D. Introduction to Magnetism and Magnetic Materials, 3rd ed. CRC Press; 2015",
+     "note": "Magnetic circuits and air gaps"
     }
    ],
    "objective": "U2.2",
    "difficulty": 4,
-   "hint": "Which noise source grows with frequency? Now go to the low-frequency end."
+   "hint": "Turn the iron into an equivalent length of air. Which piece is longer?"
   },
   {
    "id": "q4",
    "type": "mc",
    "kind": "new",
    "bloom": "apply",
-   "concept": "RF safety (SAR)",
+   "concept": "Coil heating",
    "points": 1,
-   "prompt": "Specific absorption rate scales roughly with ω_{0}^{2}. Going from 1.5 T to 64 mT with an otherwise identical sequence, SAR changes by about:",
+   "prompt": "An air-core copper coil dissipates 50 W at 2 A. You need 3× the field from the same coil. Ignoring the rise in resistance as it warms, how much heat does it now dissipate?",
    "options": [
-    {
-     "id": "A",
-     "text": "A factor of ~23 lower"
-    },
-    {
-     "id": "B",
-     "text": "A factor of ~4 lower"
-    },
-    {
-     "id": "C",
-     "text": "No change, because SAR depends on flip angle only"
-    },
-    {
-     "id": "D",
-     "text": "A factor of ~550 lower"
-    }
+    {"id": "A", "text": "About 150 W"},
+    {"id": "B", "text": "About 100 W"},
+    {"id": "C", "text": "Still 50 W, because the coil's resistance hasn't changed"},
+    {"id": "D", "text": "About 450 W"}
    ],
    "answer": "D",
-   "explanation": "Field ratio 1.5/0.064 ≈ 23.4; SAR ∝ B_{0}^{2} gives ≈ 23.4^{2} ≈ 550× lower. That's why SAR is rarely limiting at low field.",
+   "explanation": "For an air-core coil B ∝ I, so 3× the field needs 6 A. Heat P = I^{2}R grows 9×: 9 × 50 W = 450 W. In practice it's worse, since copper's resistance rises as it heats.",
    "distractor_notes": {
-    "A": "Uses linear rather than quadratic scaling.",
+    "A": "Scales heat linearly with current instead of with its square.",
     "B": "No physical basis; a guess.",
-    "C": "Flip angle matters, but so does frequency."
+    "C": "Same resistance, but the heat depends on the current squared."
    },
    "sources": [
     {
-     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
-     "url": "https://doi.org/10.1002/jmri.26637"
+     "title": "Ling SJ, Sanny J, Moebs W. University Physics Volume 2. OpenStax; 2016",
+     "url": "https://openstax.org/details/books/university-physics-volume-2",
+     "note": "Chapter 9, Electrical energy and power"
     }
    ],
    "objective": "U2.4",
@@ -204,38 +161,27 @@
    "type": "mc",
    "kind": "pretest",
    "bloom": "understand",
-   "concept": "Portable systems",
+   "concept": "Magnet choice",
    "points": 1,
-   "prompt": "Bedside studies of critically ill patients with a commercial portable scanner (Sheth et al., 2021) used a system with which main magnet?",
+   "prompt": "A scrapyard crane lifts steel with a magnet and must drop the load on command. Why is that magnet an electromagnet rather than a permanent magnet?",
    "options": [
-    {
-     "id": "A",
-     "text": "A 0.55 T superconducting magnet"
-    },
-    {
-     "id": "B",
-     "text": "A 64 mT permanent magnet"
-    },
-    {
-     "id": "C",
-     "text": "A 6.5 mT resistive electromagnet"
-    },
-    {
-     "id": "D",
-     "text": "A 1.5 T helium-free superconducting magnet"
-    }
+    {"id": "A", "text": "Electromagnets are always stronger than permanent magnets"},
+    {"id": "B", "text": "Its field can be switched off to release the load"},
+    {"id": "C", "text": "Permanent magnets lose their magnetism when they touch steel"},
+    {"id": "D", "text": "Electromagnets need no power to keep holding the load"}
    ],
    "answer": "B",
-   "explanation": "The portable system in that study used a 64 mT permanent magnet, which allows bedside use without cryogens or a shielded room.",
+   "explanation": "The deciding feature is control: cutting the current removes the field and releases the load. Strong permanent magnets exist, but they can't simply be switched off.",
    "distractor_notes": {
-    "A": "0.55 T is a mid-field superconducting system, not portable.",
-    "C": "Ultra-low-field research systems exist but weren't used here.",
-    "D": "Not portable."
+    "A": "Modern rare-earth magnets are very strong; strength isn't the reason.",
+    "C": "Contact with steel doesn't demagnetize a permanent magnet.",
+    "D": "The reverse: an electromagnet needs current the whole time it holds the load."
    },
    "sources": [
     {
-     "title": "Sheth KN, Mazurek MH, Yuen MM, et al. Assessment of brain injury using portable, low-field magnetic resonance imaging at the bedside of critically ill patients. JAMA Neurol. 2021;78(1):41-47",
-     "url": "https://doi.org/10.1001/jamaneurol.2020.3263"
+     "title": "Ling SJ, Sanny J, Moebs W. University Physics Volume 2. OpenStax; 2016",
+     "url": "https://openstax.org/details/books/university-physics-volume-2",
+     "note": "Chapter 12, Magnetism in matter"
     }
    ],
    "objective": "U3.1",
@@ -246,37 +192,37 @@
    "type": "short",
    "kind": "new",
    "bloom": "analyze",
-   "concept": "SNR scaling",
+   "concept": "Magnetic circuits",
    "points": 4,
    "expected_length": "4-6 sentences",
-   "prompt": "Explain why SNR falls faster than linearly with B_{0} in the low-field regime. State your noise assumptions.",
+   "prompt": "An iron-core electromagnet has N turns carrying current I, an iron path of length l_{i} with relative permeability μ_{r}, and an air gap g. Derive the gap field B_{g} and explain why B_{g} ≈ μ_{0}NI / g when μ_{r} is large. State your assumptions.",
    "rubric": [
     {
-     "criterion": "Signal scaling",
+     "criterion": "Ampère's law around the circuit",
      "points": 2,
-     "description": "Equilibrium magnetization ∝ B_{0} and the induced EMF ∝ ω_{0}, so the received signal ∝ B_{0}^{2}."
+     "description": "NI = H_{i}l_{i} + H_{g}g, with B continuous across the gap (same area, no fringing), so H_{i} = B / (μ_{0}μ_{r}) and H_{g} = B / μ_{0}, giving B_{g} = μ_{0}NI / (g + l_{i}/μ_{r})."
     },
     {
-     "criterion": "Noise regime and conclusion",
+     "criterion": "Large-μ_{r} limit and meaning",
      "points": 2,
-     "description": "At low field, coil noise dominates and scales only weakly with frequency (~ω^{1/4} with skin-effect resistance), so SNR scales roughly as B_{0}^{7/4}; contrasts with ~B_{0} at high field where sample noise dominates."
+     "description": "When l_{i}/μ_{r} ≪ g the iron term drops out, so B_{g} ≈ μ_{0}NI / g: the gap sets the field and the iron mainly guides flux. Valid only below saturation."
     }
    ],
-   "model_answer": "Signal ∝ M_{0}·ω_{0} ∝ B_{0}^{2}. Noise ∝ √(R·Δf). At high field, sample resistance (∝ ω^{2}) dominates, so noise ∝ B_{0} and SNR ∝ B_{0}. At low field, coil resistance dominates (∝ √ω from skin effect), so noise ∝ ω^{1/4} and SNR ∝ B_{0}^{7/4}: a steeper loss than linear.",
-   "alternatives": "Framing via the coil/sample-noise crossover frequency, or via preamplifier noise figure, earns full credit if the scaling argument is right. Exponents between ~1.5 and 2 with a stated assumption are acceptable.",
+   "model_answer": "Take a loop through the iron and the gap: ∮H·dl = NI gives H_{i}l_{i} + H_{g}g = NI. Assume the same cross-section and no fringing, so B is the same in iron and gap. Then H_{i} = B / (μ_{0}μ_{r}) and H_{g} = B / μ_{0}, so B_{g} = μ_{0}NI / (g + l_{i}/μ_{r}). For μ_{r} = 2000 and l_{i} = 0.4 m the iron term is 0.2 mm against a 4 mm gap, so B_{g} ≈ μ_{0}NI / g. This holds only while the iron is below saturation.",
+   "alternatives": "A reluctance-network argument (R = l / μA, flux = NI / ΣR) earns full credit. Including fringing as a larger effective gap area is fine if stated as an assumption.",
    "sources": [
     {
-     "title": "Hoult DI, Richards RE. The signal-to-noise ratio of the nuclear magnetic resonance experiment. J Magn Reson. 1976;24:71-85",
-     "url": "https://doi.org/10.1016/0022-2364(76)90233-X"
+     "title": "Griffiths DJ. Introduction to Electrodynamics, 4th ed. Cambridge University Press; 2017",
+     "note": "Section 6.3, Ampère's law in magnetized materials"
     },
     {
-     "title": "Marques JP, Simonis FFJ, Webb AG. Low-field MRI: An MR physics perspective. J Magn Reson Imaging. 2019;49(6):1528-1542",
-     "url": "https://doi.org/10.1002/jmri.26637"
+     "title": "Jiles D. Introduction to Magnetism and Magnetic Materials, 3rd ed. CRC Press; 2015",
+     "note": "Magnetic circuits"
     }
    ],
    "objective": "U2.1",
    "difficulty": 4
   }
  ],
- "review_note": "Re-solved all MC keys independently. Reworded q3 so 'sample noise' is clearly tied to field strength. Checked q4 arithmetic (23.4² ≈ 548). Answer letters spread A/C/B/D/B. Marked q5 as a low-stakes preview of the portable-systems topic. Rewrote q2 from recall into a protocol-prediction item (analyze) after the review flagged it as too easy."
+ "review_note": "Re-solved all MC keys independently. Checked q1 arithmetic (4π × 10^-7 × 2000 × 2 ≈ 5.03 mT) and q3 (0.4 m / 2000 = 0.2 mm vs 4 mm gap). Reworded q2 option C so it is clearly an overstatement. Answer letters spread A/B/B/D/B. Marked q5 as a low-stakes preview of the magnet-choice topic. Rewrote q4 from direct I^2R recall into a field-to-current-to-heat chain after the review flagged it as too easy."
 }

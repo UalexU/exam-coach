@@ -5,7 +5,7 @@ Thanks for helping make practice exams teach better.
 ## Ground rules
 
 - **Learning first.** Changes to the loop (scheduling, difficulty, feedback) should point to evidence or to a tool that demonstrably does it well. Add the reference to `skills/exam-coach/references/learning-science.md`.
-- **No runtime dependencies.** Scripts use only the Python standard library (3.9+); the exam page uses no external scripts, fonts or CDNs.
+- **No runtime dependencies.** Scripts use only the Python standard library (3.10+); the exam page uses no external scripts, fonts or CDNs.
 - **Explain the why in SKILL.md.** Claude follows reasons better than rules in capitals.
 - **Never fabricate sources** in examples or tests.
 

@@ -22,10 +22,10 @@ with sync_playwright() as p:
         assert pg.locator("#timer").inner_text().startswith("29:") or pg.locator("#timer").inner_text().startswith("30:"), pg.locator("#timer").inner_text()
         # q1 correct+sure, q2 wrong+sure (confident error), q3 correct, q4 wrong, leave q5 blank, answer q6
         pg.click("#q-q1 .opt:has-text('2.7 MHz')"); pg.click("#q-q1 .conf button[data-k=sure]")
-        pg.click("#q-q2 .opt:has-text('lengthens at low field')"); pg.click("#q-q2 .conf button[data-k=sure]")
-        pg.click("#q-q3 .opt:has-text('Coil and preamp')")
-        pg.click("#q-q4 .opt:has-text('~23')")
-        pg.fill("#q-q6 textarea", "Signal goes as B0 squared; coil noise dominates so SNR ~ B0^(7/4).")
+        pg.click("#q-q2 .opt:has-text('triples to about 3.6 T')"); pg.click("#q-q2 .conf button[data-k=sure]")
+        pg.click("#q-q3 .opt:has-text('Narrow the air gap')")
+        pg.click("#q-q4 .opt:has-text('150 W')")
+        pg.fill("#q-q6 textarea", "NI = H_i l_i + H_g g, so B = mu0 N I / (g + l_i/mu_r); the gap dominates.")
         assert "5/6" in pg.locator("#progtxt").inner_text()
         assert pg.locator("#q-q1 .hint-txt.hidden").count() == 1
         pg.click("#q-q1 .hint-btn"); assert pg.locator("#q-q1 .hint-txt.hidden").count() == 0
