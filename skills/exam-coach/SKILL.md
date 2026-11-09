@@ -35,8 +35,8 @@ If the request (or a scheduled-task prompt) already contains a profile, use it a
 
 | Field | Default | Notes |
 |---|---|---|
-| Field / subject | (required) | e.g. "low-field MRI physics" |
-| Professor persona | (required) | expertise, style, strictness, e.g. "MR physicist focused on hardware and SNR trade-offs, Socratic, strict on units" |
+| Field / subject | (required) | e.g. "electromagnetism" |
+| Professor persona | (required) | expertise, style, strictness, e.g. "experimental physicist who builds electromagnets, Socratic, strict on units" |
 | Syllabus / learning path | strongly recommended | a course syllabus (file, pasted text, URL), a textbook's table of contents, or a list of units with dates (section 2) |
 | Topics, readings, ideas | optional | papers, chapters, concepts, known weak spots |
 | Level | graduate | undergrad / graduate / PhD qualifier / professional |

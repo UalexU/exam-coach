@@ -1,18 +1,18 @@
 [
  {"date":"2026-10-28","number":1,"score":5,"total":8,"items":[
-  {"concept":"Larmor frequency","type":"mc","earned":1,"points":1,"confidence":"sure"},
-  {"concept":"Relaxation vs field","type":"mc","earned":0,"points":1,"confidence":"sure"},
-  {"concept":"Noise regimes","type":"mc","earned":1,"points":1,"confidence":"unsure"},
-  {"concept":"SNR scaling","type":"short","earned":2,"points":4,"confidence":"unsure"},
-  {"concept":"RF safety (SAR)","type":"mc","earned":1,"points":1,"confidence":"guess"}]},
+  {"concept":"Solenoid field","type":"mc","earned":1,"points":1,"confidence":"sure"},
+  {"concept":"Core saturation","type":"mc","earned":0,"points":1,"confidence":"sure"},
+  {"concept":"Air gap dominance","type":"mc","earned":1,"points":1,"confidence":"unsure"},
+  {"concept":"Magnetic circuits","type":"short","earned":2,"points":4,"confidence":"unsure"},
+  {"concept":"Coil heating","type":"mc","earned":1,"points":1,"confidence":"guess"}]},
  {"date":"2026-10-31","number":2,"score":6,"total":7,"items":[
-  {"concept":"Larmor frequency","type":"mc","earned":1,"points":1,"confidence":"sure"},
-  {"concept":"Relaxation vs field","type":"mc","earned":1,"points":1,"confidence":"unsure"},
-  {"concept":"SNR scaling","type":"short","earned":4,"points":4,"confidence":"sure"},
-  {"concept":"Gradient design","type":"mc","earned":0,"points":1,"confidence":"sure"}]},
+  {"concept":"Solenoid field","type":"mc","earned":1,"points":1,"confidence":"sure"},
+  {"concept":"Core saturation","type":"mc","earned":1,"points":1,"confidence":"unsure"},
+  {"concept":"Magnetic circuits","type":"short","earned":4,"points":4,"confidence":"sure"},
+  {"concept":"Magnetic force","type":"mc","earned":0,"points":1,"confidence":"sure"}]},
  {"date":"2026-11-03","number":3,"score":3,"total":4,"items":[
-  {"concept":"Larmor frequency","type":"mc","earned":1,"points":1,"confidence":"sure"},
-  {"concept":"Noise regimes","type":"mc","earned":1,"points":1,"confidence":"sure"},
-  {"concept":"Gradient design","type":"mc","earned":0,"points":1,"confidence":"unsure"},
-  {"concept":"RF safety (SAR)","type":"mc","earned":1,"points":1,"confidence":"sure"}]}
+  {"concept":"Solenoid field","type":"mc","earned":1,"points":1,"confidence":"sure"},
+  {"concept":"Air gap dominance","type":"mc","earned":1,"points":1,"confidence":"sure"},
+  {"concept":"Magnetic force","type":"mc","earned":0,"points":1,"confidence":"unsure"},
+  {"concept":"Coil heating","type":"mc","earned":1,"points":1,"confidence":"sure"}]}
 ]

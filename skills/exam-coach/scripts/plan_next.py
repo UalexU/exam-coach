@@ -6,7 +6,7 @@ record is what the interactive page saves ("Copy results for next exam", or the
 `results` rows in the artifact database):
 
   {"date": "2026-11-09", "number": 4, "score": 21.5, "total": 30, "reflection": "...",
-   "items": [{"concept": "SNR scaling", "type": "mc", "kind": "review", "bloom": "apply",
+   "items": [{"concept": "Magnetic circuits", "type": "mc", "kind": "review", "bloom": "apply",
               "earned": 1, "points": 1, "status": "ok", "confidence": "sure"}, ...]}
 
 For each concept it keeps a small memory model inspired by FSRS (the scheduler

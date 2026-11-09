@@ -8,7 +8,7 @@ Write the objective as a verb the learner must perform: *predict*, *derive*, *ch
 
 | Weak (recall) | Strong (reasoning) |
 |---|---|
-| "T1 at low field is: shorter / longer / same" | "You port a protocol from 3 T to 64 mT and keep TR. What happens to T1 contrast, and what should you change?" |
+| "What limits an electromagnet's field?" | "Your electromagnet has a 4 mm gap and a steel core. You need 20 % more field without more current. What do you change, and why?" |
 | "What is R-hat?" | "Four chains give R-hat = 1.03 and bulk-ESS = 180 for τ. What's the justified next step?" |
 | "Define a confounder" | "A study finds X predicts Y. Which added variable would most change the conclusion, and why?" |
 
@@ -31,7 +31,7 @@ Write the key first, then build each wrong option from a specific failure of und
 | **Documented misconception** | The belief the literature or teaching notes say students hold (reversed direction of an effect). |
 | **Right reasoning, one slip** | Correct method, one step wrong: a unit conversion, a factor of 2, linear instead of quadratic scaling. |
 | **True but irrelevant** | A correct statement that doesn't answer *this* question. |
-| **Right under another assumption** | Correct in a different regime (high field vs low field, large-n vs small-n). |
+| **Right under another assumption** | Correct in a different regime (below vs above saturation, large-n vs small-n). |
 | **Over-generalisation** | A rule of thumb applied past its limits. |
 | **Partial answer** | Names one of two required factors; looks complete at a glance. |
 

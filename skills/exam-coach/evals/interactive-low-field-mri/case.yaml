@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: interactive-low-field-mri
-expected_outcome: |
-  A validated exam JSON with research-backed sources, and an interactive timed HTML exam with color-coded grading.
