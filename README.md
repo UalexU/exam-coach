@@ -60,7 +60,7 @@ syllabus.json ─► plan_next.py ─► research ─► write exam.json ─► 
 **Claude Code:** this repo is also a plugin marketplace:
 
 ```bash
-/plugin marketplace add <owner>/exam-coach
+/plugin marketplace add UalexU/exam-coach
 /plugin install exam-coach@exam-coach
 ```
 
